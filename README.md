@@ -1,4 +1,4 @@
-# gestion-de-cong-s_ST2I
+# gestion-de-congés_ST2I
 
 > 🔧 Full Stack Project — Angular & Spring Boot  
 > 📅 January – February 2025 | 📍 LAC 2
