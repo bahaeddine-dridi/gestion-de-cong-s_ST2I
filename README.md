@@ -19,11 +19,4 @@ Conception et développement d’une application web de **gestion de congés** :
 
 ---
 
-### ✅ B. Update GitHub Repo Description
-
-Go to your repo page:  
-👉 [https://github.com/bahaeddine-dridi/gestion-de-cong-s_ST2I](https://github.com/bahaeddine-dridi/gestion-de-cong-s_ST2I)
-
-1. Click the **⚙️ Settings icon** (top-right next to "About" or edit pencil).
-2. In the **“Description” box**, paste this:
 
