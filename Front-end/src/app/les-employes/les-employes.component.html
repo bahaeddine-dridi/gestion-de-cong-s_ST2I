@@ -1,0 +1,159 @@
+<div class="dashboard-container">
+  <div class="main-content">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <ul class="nav-links">
+        <li><a routerLink="/dashboard" routerLinkActive="active"><i class="fa-solid fa-list fa-beat-fade"></i> Tableau de bord</a></li>
+        <li><a routerLink="/demande"><i class="fa-solid fa-person-circle-question fa-bounce"></i> Mes demandes</a></li>
+        <ng-container *ngIf="userRole === 'director'">
+          <li><a routerLink="/projet" routerLinkActive="active"><i class="fa-solid fa-briefcase fa-beat-fade"></i> Les projets</a></li>
+          <li><a routerLink="/users" routerLinkActive="active"><i class="fa-solid fa-person fa-bounce"></i><i class="fa-solid fa-person-dress fa-bounce"></i> Les employés</a></li>
+          <li><a routerLink="/DemandeConge" routerLinkActive="active"><i class="fa-solid fa-hourglass-start fa-fade"></i> Demandes des congés</a></li>
+        </ng-container>
+      </ul>
+    </nav>
+
+    <!-- User List -->
+    <div class="user-container" *ngIf="!showNewUserForm && !showUpdateUserForm">
+      <div class="user-header">
+        <h1>Les Utilisateurs</h1>
+        <button class="btn-add" (click)="toggleNewUserForm()">
+          <i class="fas fa-plus"></i> Ajouter un Utilisateur
+        </button>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom d'utilisateur</th>
+              <th>Email</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="users.length === 0">
+              <td colspan="6" class="empty-message">Aucun utilisateur trouvé</td>
+            </tr>
+            <tr *ngFor="let user of users">
+              <td>{{ user.id }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td><button class="btn-delete" (click)="deleteUser(user.id)"><i class="fa-solid fa-user-large-slash"></i></button></td>
+              <td><button class="btn-add" (click)="editUser(user)"><i class="fa-solid fa-user-pen"></i></button></td>
+              <td><button class="btn-solde" (click)="openSoldeForm(user.id)"><i class="fa-solid fa-coins"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Add User Form -->
+    <div class="form-container" *ngIf="showNewUserForm">
+      <h1>Ajouter un Utilisateur</h1>
+      <form (ngSubmit)="addUser()">
+        <div class="form-group">
+          <label for="username">Nom d'utilisateur</label>
+          <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" [(ngModel)]="newUser.email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" [(ngModel)]="newUser.password" name="password" required />
+        </div>
+        <div class="form-group">
+          <label for="role">Rôle</label>
+          <select id="role" [(ngModel)]="newUser.roles[0].name" name="role" required>
+            <option value="ROLE_USER">Utilisateur</option>
+            <option value="ROLE_ADMIN">Administrateur</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-save" [disabled]="isLoading">Enregistrer</button>
+          <button type="button" class="btn-cancel" (click)="toggleNewUserForm()" [disabled]="isLoading">Annuler</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Update User Form -->
+    <div class="form-container" *ngIf="showUpdateUserForm">
+      <h1>Modifier un Utilisateur</h1>
+      <form (ngSubmit)="updateUser()">
+        <div class="form-group">
+          <label for="username">Nom d'utilisateur</label>
+          <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" [(ngModel)]="newUser.email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" [(ngModel)]="newUser.password" name="password" placeholder="Laissez vide pour conserver l'ancien mot de passe" />
+        </div>
+        <div class="form-group">
+          <label for="role">Rôle</label>
+          <select id="role" [(ngModel)]="newUser.roles[0].name" name="role" required>
+            <option value="ROLE_USER">Utilisateur</option>
+            <option value="ROLE_ADMIN">Administrateur</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-save" [disabled]="isLoading">Mettre à jour</button>
+          <button type="button" class="btn-cancel" (click)="toggleUpdateUserForm()" [disabled]="isLoading">Annuler</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Solde Congé Form -->
+    <div class="modal" *ngIf="showSoldeForm">
+      <div class="modal-content">
+        <h2>Créer Solde Congé</h2>
+        <div class="form-container">
+          <form (ngSubmit)="createUserSolde()">
+            <div class="form-group">
+              <label for="congeRepos">Congé Repos (jours)</label>
+              <input
+                type="number"
+                id="congeRepos"
+                [(ngModel)]="soldeForm.congeRepos"
+                name="congeRepos"
+                required
+                min="0"
+                step="0.5"
+                placeholder="0"
+              />
+            </div>
+            <div class="form-group">
+              <label for="congeMaladie">Congé Maladie (jours)</label>
+              <input
+                type="number"
+                id="congeMaladie"
+                [(ngModel)]="soldeForm.congeMaladie"
+                name="congeMaladie"
+                required
+                min="0"
+                step="0.5"
+                placeholder="0"
+              />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-save" [disabled]="isLoading">
+                Enregistrer
+              </button>
+              <button type="button" class="btn-cancel" (click)="closeSoldeForm()" [disabled]="isLoading">
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

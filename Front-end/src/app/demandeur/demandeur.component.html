@@ -1,0 +1,26 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <ul class="nav-links">
+        <li><a routerLink="/dashboard" routerLinkActive="active"><i class="fa-solid fa-list fa-beat-fade"></i> Tableau de bord</a></li>
+        
+        <li><a routerLink="/demande" routerLinkActive="active"><i class="fa-solid fa-person-circle-question fa-bounce"></i> Mes demandes</a></li> <!-- Update this link -->
+      </ul>
+    </nav>
+
+    <!-- Content Area -->
+    <main class="content">
+      <!-- Default Content -->
+      <div class="welcome-content">
+        <h1>Bienvenue, {{ user.name }}</h1>
+      </div>
+
+      <!-- Router Outlet for Dynamic Content -->
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

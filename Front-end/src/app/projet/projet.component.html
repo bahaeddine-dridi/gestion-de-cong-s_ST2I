@@ -1,0 +1,102 @@
+<div class="dashboard-container">
+  <div class="main-content">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <ul class="nav-links">
+        <li><a routerLink="/dashboard" routerLinkActive="active"><i class="fa-solid fa-list fa-beat-fade"></i> Tableau de bord</a></li>
+        <li><a routerLink="/demande"><i class="fa-solid fa-person-circle-question fa-bounce"></i> Mes demandes</a></li>
+        <ng-container *ngIf="userRole === 'director'">
+          <li><a routerLink="/projet" routerLinkActive="active"><i class="fa-solid fa-briefcase fa-beat-fade"></i> Les projets</a></li>
+          <li><a routerLink="/LesEmployes" routerLinkActive="active"><i class="fa-solid fa-person fa-bounce"></i><i class="fa-solid fa-person-dress fa-bounce"></i> Les employés</a></li>
+          <li><a routerLink="/DemandeConge" routerLinkActive="active"><i class="fa-solid fa-hourglass-start fa-fade"></i> Demandes des congés</a></li>
+        </ng-container>
+      </ul>
+    </nav>
+
+    <div class="projet-container" *ngIf="!showNewProjetForm">
+      <div class="projet-header">
+        <h1>Les Projets</h1>
+        <button class="btn-add" (click)="toggleNewProjetForm()">
+          <i class="fas fa-plus"></i> Ajouter un Projet
+        </button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Projets en cours</h2>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NOM DU PROJET</th>
+              <th>CHEF DE PROJET</th>
+              <th>MEMBRES</th>
+              <th>    </th>
+              <th>     </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="projets.length === 0">
+              <td colspan="4" class="empty-message">Vide</td>
+            </tr>
+            <tr *ngFor="let projet of projets">
+              <td>{{ projet.id }}</td>
+              <td>{{ projet.name }}</td>
+              <td>{{ projet.chef.username }}</td>
+              <td>
+                <span *ngFor="let user of projet.users; let last = last">
+                  {{ user.username }}{{ !last ? ', ' : '' }}
+                </span>
+              </td>
+              <td>
+                <button class="btn-add" (click)="editProjet(projet)">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn-add" (click)="deleteProjet(projet.id)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="form-container" *ngIf="showNewProjetForm">
+      <h1>{{ isEditing ? 'Modifier le Projet' : 'Ajouter un Projet' }}</h1>
+      <p class="subtitle">Veuillez compléter les champs requis ci-dessous.</p>
+    
+      <form (ngSubmit)="onSubmit()" class="projet-form">
+        <div class="form-group">
+          <label>Nom du Projet</label>
+          <input type="text" [(ngModel)]="newProjet.name" name="name" required>
+        </div>
+    
+        <div class="form-group">
+          <label>ID Chef de Projet</label>
+          <input type="text" [(ngModel)]="newProjet.chefId" name="chefId" required>
+        </div>
+    
+        <div class="form-group">
+          <label>IDs des Utilisateurs</label>
+          <input type="text" [(ngModel)]="newProjet.users" name="users" required 
+                 placeholder="Ex: 1,2,3,4">
+        </div>
+    
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="toggleNewProjetForm()">
+            <i class="fas fa-arrow-left"></i> Retour
+          </button>
+          <button type="submit" class="btn-primary">
+            {{ isEditing ? 'Enregistrer les modifications' : 'Suivant' }} <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

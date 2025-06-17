@@ -1,0 +1,270 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background-color: #003C7F;
+  padding: 2rem 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 79px;
+  height: 100vh;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li a {
+  display: block;
+  padding: 1rem 2rem;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  background-color: #002B5C;
+}
+
+/* Content Area Styles */
+.content {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 280px;
+  background-color: #f8f9fa;
+  margin-top: 10px;
+  width: calc(100vw - 280px);
+  height: calc(100vh - 82px);
+  position: absolute;
+  top: 72px;
+  overflow-y: auto;
+}
+
+/* Dashboard Stats Styles */
+.dashboard-stats {
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-stats h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #003C7F;
+  padding-bottom: 0.5rem;
+}
+
+/* Solde Container Styles */
+.solde-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.solde-container h3 {
+  color: #003C7F;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+/* Leave Balance Grid */
+.leave-balance-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Counter Styles */
+.leave-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.leave-counter:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.circle-progress {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.circle-progress svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.progress-bg {
+  fill: none;
+  stroke: #e5e7eb;
+  stroke-width: 8;
+}
+
+.progress-bar {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease-in-out, stroke 0.3s ease-in-out;
+}
+
+/* Color classes for different states */
+.progress-high {
+  stroke: #22c55e; /* green */
+}
+
+.progress-medium {
+  stroke: #eab308; /* yellow */
+}
+
+.progress-low {
+  stroke: #dc2626; /* red */
+}
+
+.counter-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.counter-value .value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+  display: block;
+}
+
+.counter-value .label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.leave-counter h4 {
+  margin-top: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #003C7F;
+}
+
+/* Demand Stats Styles */
+.demand-stats {
+  margin-top: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+  
+  .content {
+    margin-left: 240px;
+    width: calc(100vw - 240px);
+  }
+  
+  .circle-progress {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  
+  .content {
+    margin-left: 200px;
+    width: calc(100vw - 200px);
+    padding: 1.5rem;
+  }
+  
+  .nav-links li a {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .leave-balance-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .leave-counter {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .circle-progress {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .counter-value .value {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+    width: 100%;
+    position: static;
+    height: auto;
+  }
+  
+  .content {
+    margin-left: 0;
+    width: 100%;
+    position: static;
+    padding: 1rem;
+  }
+  
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .dashboard-stats {
+    padding: 1rem;
+  }
+  
+  .leave-counter {
+    max-width: 240px;
+  }
+  
+  .circle-progress {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .counter-value .value {
+    font-size: 1.4rem;
+  }
+}
